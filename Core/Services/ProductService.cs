@@ -1,0 +1,41 @@
+﻿using AutoMapper;
+using Domain.Contracts;
+using Domain.Entities;
+using Service.Abstractions;
+using Shared.DTOS;
+
+
+namespace Service
+{
+    public class ProductService(IUnitOfWork unitOfWork , IMapper mapper) : IProductService
+
+    {
+        public async Task<IEnumerable<BrandDto>> GetAllBrandsAsync()
+        {
+           var Repo = unitOfWork.GetRepository<ProductBrand,int>();
+           var Brands= await  Repo.GetAllAsync();
+            return mapper.Map< IEnumerable<ProductBrand>, IEnumerable<BrandDto>>(Brands);
+            
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync()
+        {
+           var Products=await unitOfWork.GetRepository<Product,int>().GetAllAsync();
+            return mapper.Map< IEnumerable<Product>, IEnumerable<ProductDto>>(Products);
+              
+        }
+
+        public async Task<IEnumerable<TypeDto>> GetAllTypesAsync()
+        {
+            var Types=await unitOfWork.GetRepository<ProductType,int>().GetAllAsync();
+            return mapper.Map< IEnumerable<ProductType>, IEnumerable<TypeDto>>(Types);
+           
+        }
+
+        public async Task<ProductDto?> GetProductByIdAsync(int id)
+        {
+          var Product= await  unitOfWork.GetRepository<Product,int>().GetByIdAsync(id);
+            return mapper.Map<Product, ProductDto>(Product);
+        }
+    }
+}
