@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts
 {
-    public interface IGenericRepository<IEntity,TKey> where IEntity: BaseEntity<TKey>
+    public interface IGenericRepository<IEntity,Tkey> where IEntity: BaseEntity<Tkey>
     {
         //Get All
         Task <IEnumerable<IEntity>> GetAllAsync();
 
         //Get By Id
-        Task<IEntity?> GetByIdAsync(TKey id);
+        Task<IEntity?> GetByIdAsync(Tkey id);
 
         //Add
         Task AddAsync(IEntity entity);
@@ -23,5 +23,13 @@ namespace Domain.Contracts
 
         //Delete
         void Delete(IEntity entity);
+
+        #region With Specifications
+        Task<IEnumerable<IEntity>> GetAllAsync(ISpecifications <IEntity,Tkey> specification);
+        Task<IEntity?> GetByIdAsync(ISpecifications<IEntity, Tkey> specification);
+        #endregion
+
+
+
     }
 }

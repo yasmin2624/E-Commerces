@@ -30,7 +30,11 @@ namespace E_Commerces
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles ()));
 
+            builder.Services.AddScoped<PictureUrlResolver>();
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
+           
 
             #endregion
 

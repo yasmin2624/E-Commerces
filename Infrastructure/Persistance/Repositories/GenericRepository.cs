@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Service.Specifications;
+
 
 namespace Persistance.Repositories
 {
@@ -28,5 +30,19 @@ namespace Persistance.Repositories
 
         public void Delete(TEntity entity) => dbContext.Set<TEntity>().Remove(entity);
 
+        #region With Specifications
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specification)
+        {
+            return await SpecificationEvaluator.CreateQuery(dbContext.Set<TEntity>(), specification).ToListAsync();
+        }
+
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specification)
+        {
+            return await SpecificationEvaluator.CreateQuery(dbContext.Set<TEntity>(), specification).FirstOrDefaultAsync();
+
+               
+        } 
+        #endregion
     }
 }
