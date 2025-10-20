@@ -46,6 +46,7 @@ namespace Service.Specifications
 
 
             #endregion
+            ApplyPagination(queryParams.PageSize, queryParams.PageIndex);
         }
 
         // Get Product By Id With Brand and Type

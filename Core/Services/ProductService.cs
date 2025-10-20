@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
 using Domain.Entities;
+using Domain.Exceptions;
 using Service.Abstractions;
 using Service.Specifications;
 using Shared;
@@ -21,12 +22,15 @@ namespace Service
             
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductsAsync(ProductQueryParams queryParams)
+        public async Task<PaginatedResult<ProductDto>> GetAllProductsAsync(ProductQueryParams queryParams)
         {
             var Specifications = new Specifications.ProductWithBrandAndTypeSpecifications(queryParams);
-            var Products=await unitOfWork.GetRepository<Product,int>().GetAllAsync(Specifications);
-            return mapper.Map< IEnumerable<Product>, IEnumerable<ProductDto>>(Products);
-              
+            var Products = await unitOfWork.GetRepository<Product,int>().GetAllAsync(Specifications);
+            var data = mapper.Map< IEnumerable<Product>, IEnumerable<ProductDto>>(Products);
+            var ProductCount = Products.Count();
+            return new PaginatedResult<ProductDto>(ProductCount, queryParams.PageIndex , 0, data);
+
+
         }
 
         public async Task<IEnumerable<TypeDto>> GetAllTypesAsync()
@@ -40,6 +44,10 @@ namespace Service
         {
             var Specifications = new ProductWithBrandAndTypeSpecifications(id);
             var Product= await  unitOfWork.GetRepository<Product,int>().GetByIdAsync(Specifications);
+           if(Product is null)
+            {
+                throw new ProductNotFoundException(id);
+            }
             return mapper.Map<Product, ProductDto>(Product);
         }
     }
