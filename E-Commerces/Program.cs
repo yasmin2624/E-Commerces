@@ -7,6 +7,7 @@ using Persistance.Data.Seeding;
 using Persistance.Repositories;
 using Service;
 using Service.Abstractions;
+using StackExchange.Redis;
 
 namespace E_Commerces
 {
@@ -35,6 +36,11 @@ namespace E_Commerces
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
+            builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+            builder.Services.AddSingleton<IConnectionMultiplexer>((_) =>
+            {
+                return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
+            });
            
 
             #endregion

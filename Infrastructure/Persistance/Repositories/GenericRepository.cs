@@ -1,5 +1,4 @@
 ﻿using Domain.Contracts;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Data;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Service.Specifications;
+using Domain.Entities.ProductModules;
 
 
 namespace Persistance.Repositories

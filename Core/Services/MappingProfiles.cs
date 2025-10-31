@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.BasketModules;
+using Domain.Entities.ProductModules;
 using Shared.DTOS;
+using Shared.DTOS.BasketDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,10 @@ namespace Service
 
             CreateMap<ProductType, TypeDto>();
             CreateMap<ProductBrand, BrandDto>();
+            #endregion
+            #region Basket
+            CreateMap<CustomerBasket, BasketDto>().ReverseMap();
+            CreateMap<BasketItem, BasketItemDto>().ReverseMap();
             #endregion
         }
     }

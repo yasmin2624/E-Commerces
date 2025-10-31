@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.ProductModules;
 using Shared;
 using Shared.Enums;
 using System;

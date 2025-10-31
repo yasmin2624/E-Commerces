@@ -1,5 +1,5 @@
 ﻿using Domain.Contracts;
-using Domain.Entities;
+using Domain.Entities.ProductModules;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 

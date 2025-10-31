@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.ProductModules;
 using Microsoft.Extensions.Configuration;
 using Shared.DTOS;
 using System;

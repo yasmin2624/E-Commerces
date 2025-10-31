@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
-using Domain.Entities;
+using Domain.Entities.ProductModules;
 using Domain.Exceptions;
 using Service.Abstractions;
 using Service.Specifications;

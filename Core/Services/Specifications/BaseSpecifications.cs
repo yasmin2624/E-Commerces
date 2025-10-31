@@ -1,5 +1,5 @@
 ﻿using Domain.Contracts;
-using Domain.Entities;
+using Domain.Entities.ProductModules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
