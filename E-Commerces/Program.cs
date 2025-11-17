@@ -1,12 +1,16 @@
 
 using Domain.Contracts;
+using Domain.Entities.Identity_Modules;
 using E_Commerces.CustomMiddleWares;
+using E_Commerces.Factories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Data;
 using Persistance.Data.Seeding;
 using Persistance.Repositories;
 using Service;
 using Service.Abstractions;
+using Shared.ErrorModels;
 using StackExchange.Redis;
 
 namespace E_Commerces
@@ -27,6 +31,19 @@ namespace E_Commerces
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddDbContext<StoreIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
+
+            builder.Services
+                .AddIdentityCore<ApplicationUser>()
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
+
+
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -41,16 +58,26 @@ namespace E_Commerces
             {
                 return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
             });
+
+
+            builder.Services.Configure<ApiBehaviorOptions>((options) =>
+            {
+
+               options.InvalidModelStateResponseFactory = (context) =>
+               {
+                   return APIResponseFactory.GenerteApiValidationResponse(context);
+               };
+            });
            
 
             #endregion
 
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            #region Build
             var app = builder.Build();
+            #endregion
 
             #region Services
             var scope = app.Services.CreateScope();
@@ -59,6 +86,7 @@ namespace E_Commerces
 
             #endregion
 
+            #region MiddleWare
             app.UseMiddleware<CustomExceptionHandlerMiddleware>();
 
             // Configure the HTTP request pipeline.
@@ -71,10 +99,15 @@ namespace E_Commerces
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
+
             app.MapControllers();
+            #endregion
+
+
 
             app.Run();
         }
