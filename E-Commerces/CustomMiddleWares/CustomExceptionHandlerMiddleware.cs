@@ -32,10 +32,11 @@ namespace E_Commerces.CustomMiddleWares
                 httpContext.Response.StatusCode = ex switch
                 {
                     NotFoundException => StatusCodes.Status404NotFound,
+                    UnauthorizedException => StatusCodes.Status401Unauthorized,
+                    BadRequestExeption => StatusCodes.Status400BadRequest,
+
                     _ => StatusCodes.Status500InternalServerError
-
                 };
-
 
                 //set content type for response
                 httpContext.Response.ContentType = "application/json";
@@ -44,7 +45,10 @@ namespace E_Commerces.CustomMiddleWares
                 var response = new ErrorToReturn()
                 {
                     StatusCode = httpContext.Response.StatusCode,
-                    ErrorMessage = ex.Message
+                    ErrorMessage = ex is BadRequestExeption badReq
+    ? string.Join(" | ", badReq.Errors)
+    : ex.Message
+
                 };
 
                 // return object as json

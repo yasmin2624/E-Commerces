@@ -3,6 +3,7 @@ using Domain.Contracts;
 using Domain.Entities.Identity_Modules;
 using E_Commerces.CustomMiddleWares;
 using E_Commerces.Factories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Data;
@@ -37,12 +38,13 @@ namespace E_Commerces
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
-            builder.Services
-                .AddIdentityCore<ApplicationUser>()
-                .AddEntityFrameworkStores<StoreIdentityDbContext>();
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
 
+            builder.Services.AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+             
 
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
 
@@ -83,6 +85,8 @@ namespace E_Commerces
             var scope = app.Services.CreateScope();
             var ObjectOfDataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
             await ObjectOfDataSeeding.DataSeedAsync();
+            await ObjectOfDataSeeding.IdentityDataSeed();
+
 
             #endregion
 
