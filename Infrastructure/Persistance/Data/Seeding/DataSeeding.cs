@@ -1,5 +1,6 @@
 ﻿using Domain.Contracts;
 using Domain.Entities.Identity_Modules;
+using Domain.Entities.OrderModules;
 using Domain.Entities.ProductModules;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,22 @@ namespace Persistance.Data.Seeding
                 if (Products is not null && Products.Any())
                 {
                     await dbContext.Products.AddRangeAsync(Products);
+
+
+                }
+            }
+
+            #endregion
+
+            #region DeliveryMethod
+
+            if (!dbContext.DeliveryMethods.Any())
+            {
+                var DeliveryData = File.OpenRead(@"..\Infrastructure\Persistance\Data\Seeding\delivery.json");
+                var Methods = await JsonSerializer.DeserializeAsync<List<DeliveryMethod>>(DeliveryData);
+                if (Methods is not null && Methods.Any())
+                {
+                    await dbContext.DeliveryMethods.AddRangeAsync(Methods);
 
 
                 }

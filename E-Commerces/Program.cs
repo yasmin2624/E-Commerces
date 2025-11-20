@@ -3,9 +3,11 @@ using Domain.Contracts;
 using Domain.Entities.Identity_Modules;
 using E_Commerces.CustomMiddleWares;
 using E_Commerces.Factories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Persistance.Data;
 using Persistance.Data.Seeding;
 using Persistance.Repositories;
@@ -13,6 +15,7 @@ using Service;
 using Service.Abstractions;
 using Shared.ErrorModels;
 using StackExchange.Redis;
+using System.Text;
 
 namespace E_Commerces
 {
@@ -41,18 +44,22 @@ namespace E_Commerces
             builder.Services.AddAuthentication();
             builder.Services.AddAuthorization();
 
+
             builder.Services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<StoreIdentityDbContext>();
-             
+
+             //-------------------------------------
 
             builder.Services.AddScoped<IDataSeeding, DataSeeding>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles ()));
-
+            
             builder.Services.AddScoped<PictureUrlResolver>();
             builder.Services.AddHttpContextAccessor();
+
+            //--------------------------------------
 
             builder.Services.AddScoped<IServiceManager, ServiceManager>();
             builder.Services.AddScoped<IBasketRepository, BasketRepository>();
@@ -70,7 +77,30 @@ namespace E_Commerces
                    return APIResponseFactory.GenerteApiValidationResponse(context);
                };
             });
-           
+
+            builder.Services.AddAuthentication(Config =>
+            {
+                Config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                Config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWTOptions:Issuer"],
+
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWTOptions:Audience"],
+
+                    ValidateLifetime = true,
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTOptions:SecretKey"])),
+                   
+                };
+            });
+
+            builder.Services.AddTransient<OrderItemPictureUrlResolver>();
+
 
             #endregion
 
@@ -102,7 +132,7 @@ namespace E_Commerces
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 

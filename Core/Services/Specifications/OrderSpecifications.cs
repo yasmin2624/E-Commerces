@@ -1,0 +1,27 @@
+﻿using Domain.Entities.OrderModules;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Service.Specifications
+{
+    public class OrderSpecifications:BaseSpecifications<Order,Guid>
+    {
+        //Get All Orders By Email
+        public OrderSpecifications(string Email) : base(o => o.UserEmail == Email)
+        {
+            AddInclude(o => o.DeliveryMethod);
+            AddInclude(o => o.Items);
+            AddOrderByDescending(o => o.OrderDate);
+        }
+
+        //Get Order By Id 
+        public OrderSpecifications(Guid Id) : base(o => o.Id == Id)
+        {
+            AddInclude(o => o.DeliveryMethod);
+            AddInclude(o => o.Items);
+        }
+    }
+}

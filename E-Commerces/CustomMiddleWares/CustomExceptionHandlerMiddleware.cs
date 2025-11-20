@@ -34,6 +34,7 @@ namespace E_Commerces.CustomMiddleWares
                     NotFoundException => StatusCodes.Status404NotFound,
                     UnauthorizedException => StatusCodes.Status401Unauthorized,
                     BadRequestExeption => StatusCodes.Status400BadRequest,
+                   
 
                     _ => StatusCodes.Status500InternalServerError
                 };
