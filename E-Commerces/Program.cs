@@ -101,6 +101,23 @@ namespace E_Commerces
 
             builder.Services.AddTransient<OrderItemPictureUrlResolver>();
 
+            builder.Services.AddScoped<ICashRepository, CashRepository>();
+            builder.Services.AddScoped<ICashService, CashService>();
+
+
+            #region Angular
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+
+
+                });
+            });
+            #endregion
 
             #endregion
 
@@ -134,6 +151,8 @@ namespace E_Commerces
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
+            app.UseCors("AllowAll");
+
             app.UseAuthorization();
 
 

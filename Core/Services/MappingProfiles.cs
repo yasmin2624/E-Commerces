@@ -22,9 +22,9 @@ namespace Service
             #region Product 
 
             CreateMap<Product, ProductDto>()
-                .ForMember(dist => dist.BrandName, opt => opt.MapFrom(src => src.ProductBrand.Name))
-                .ForMember(dist => dist.TypeName, opt => opt.MapFrom(src => src.ProductType.Name))
-                .ForMember(dist => dist.PictureUrl, opt => opt.MapFrom<PictureUrlResolver>());
+                .ForMember(dist => dist.productBrand, opt => opt.MapFrom(src => src.ProductBrand.Name))
+                .ForMember(dist => dist.productType, opt => opt.MapFrom(src => src.ProductType.Name))
+                .ForMember(dist => dist.pictureUrl, opt => opt.MapFrom<PictureUrlResolver>());
 
             CreateMap<ProductType, TypeDto>();
             CreateMap<ProductBrand, BrandDto>();
@@ -32,9 +32,9 @@ namespace Service
             #region Basket
             CreateMap<CustomerBasket, BasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>()
-     .ForMember(d => d.ProductId, o => o.MapFrom(s => s.Id))
+     .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
      .ReverseMap()
-     .ForMember(d => d.Id, o => o.MapFrom(s => s.ProductId));
+     .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
 
             #endregion
             #region Identity
@@ -44,7 +44,7 @@ namespace Service
             CreateMap<ShippingAddressDto, ShippingAddress>().ReverseMap();
 
             CreateMap<Order, OrderToReturnDto>()
-                .ForMember(D => D.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
+                .ForMember(D => D.deliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
                 .ForMember(d=>d.Total,o=>o.MapFrom(s=>s.GetTotal()));
 
             CreateMap<OrderItem, OrderItemsDto>()

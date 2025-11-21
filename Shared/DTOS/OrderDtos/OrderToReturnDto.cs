@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.DTOS.IdentityDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Shared.DTOS.OrderDtos
 {
-    public class OrderToReturnDto
+    public record OrderToReturnDto
     {
-        public Guid Id { get; set; }
-        public string UserEmail { get; set; } = null!;
-        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;
-
-        public ShippingAddressDto Address { get; set; } = null!;
-        public string DeliveryMethod { get; set; } = null!;
-        public int DeliveryMethodId { get; set; }
-        public ICollection<OrderItemsDto> Items { get; set; } = [];
-        public decimal Subtotal { get; set; }
-        public decimal Total { get; set; }
+        public Guid Id { get; init; }
+        public string buyerEmail { get; init; } = string.Empty;
+        public AddressDto shipToAddress { get; init; }
+        public ICollection<OrderItemsDto> items { get; init; } = new List<OrderItemsDto>();
+        public string status { get; init; } = string.Empty;
+        public string deliveryMethod { get; init; } = string.Empty;
+        public int? DeliveryMethodId { get; init; }
+        public decimal deliveryCost { get; set; }
+        public decimal subtotal { get; init; } //OrderItem1.Q * OrderItem1.Price + OrderItem2.Q * OrderItem2.Price
+        public DateTimeOffset orderDate { get; init; } = DateTimeOffset.UtcNow;
+        public string PaymentIntentId { get; init; } = string.Empty;
+        public decimal Total { get; init; }
 
 
     }

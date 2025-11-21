@@ -28,7 +28,7 @@ namespace Service
             var Products = await unitOfWork.GetRepository<Product,int>().GetAllAsync(Specifications);
             var data = mapper.Map< IEnumerable<Product>, IEnumerable<ProductDto>>(Products);
             var ProductCount = Products.Count();
-            return new PaginatedResult<ProductDto>(ProductCount, queryParams.PageIndex , 0, data);
+            return new PaginatedResult<ProductDto>(ProductCount, queryParams.PageNumber , 0, data);
 
 
         }

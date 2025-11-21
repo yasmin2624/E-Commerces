@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,12 @@ namespace Shared.DTOS.BasketDto
 {
     public  class BasketItemDto
     {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
-        public int Quantity { get; set; }
-        public string? PictureUrl { get; set; }
+        public int Id { get; init; }
+        public string ProductName { get; init; } = string.Empty;
+        [Range(1, double.MaxValue)]
+        public decimal Price { get; init; }
+        public string PictureUrl { get; init; } = string.Empty;
+        [Range(1, 99)]
+        public int Quantity { get; init; }
     }
 }

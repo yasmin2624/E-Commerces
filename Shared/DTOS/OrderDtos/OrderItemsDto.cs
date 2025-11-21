@@ -9,8 +9,10 @@ namespace Shared.DTOS.OrderDtos
 {
     public class OrderItemsDto
     {
-        public string ProductName { get; set; } = null!;
-        public string PictureUrl { get; set; } = null!;
+        public int ProductId { get; init; }
+        public string ProductName { get; init; } = string.Empty;
+        public string PictureUrl { get; init; } = string.Empty;
+
         public decimal Price { get; set; }
         public int Quantity { get; set; }
     }

@@ -9,6 +9,6 @@ namespace Shared.DTOS
     public class BrandDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string name { get; set; } = null!;
     }
 }

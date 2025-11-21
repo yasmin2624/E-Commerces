@@ -14,7 +14,7 @@ namespace Persentation.controllers
     public  class AuthenticationController(IServiceManager serviceManager) :APIBaseController
     {
         #region Login
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var User = await serviceManager.AuthenticationService.LoginAsync(loginDto);
@@ -23,7 +23,7 @@ namespace Persentation.controllers
         #endregion
 
         #region Register
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             var User = await serviceManager.AuthenticationService.RegisterAsync(registerDto);
@@ -33,7 +33,7 @@ namespace Persentation.controllers
         #endregion
 
         #region CheckEmail
-        [HttpGet("CheckEmail")]
+        [HttpGet("emailexists")]
         public async Task<ActionResult<bool>> CheckEmail(string Email)
         {
             var Result = await serviceManager.AuthenticationService.CheckEmailAsync(Email);
@@ -55,7 +55,7 @@ namespace Persentation.controllers
 
         #region GetCurrentUserAddress
         [Authorize]
-        [HttpGet("Address")]
+        [HttpGet("address")]
         public async Task<ActionResult<AddressDto>> GetCurrentUserAddress()
         {
             var Email = User.FindFirstValue(ClaimTypes.Email);
@@ -67,7 +67,7 @@ namespace Persentation.controllers
 
         #region  UpdateCurrentUserAddress
         [Authorize]
-        [HttpPut("Address")]
+        [HttpPut("address")]
 
         public async Task<ActionResult<AddressDto>> UpdateCurrentUserAddress(AddressDto addressDto)
         {

@@ -8,7 +8,7 @@ namespace Shared.DTOS
 {
     public class TypeDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public int id { get; set; }
+        public string name { get; set; } = null!;
     }
 }

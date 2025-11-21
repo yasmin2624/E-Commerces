@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persentation.controllers
 {
-    public class OrderController(IServiceManager serviceManager) : APIBaseController
+    public class OrdersController(IServiceManager serviceManager) : APIBaseController
     {
         #region Create Order
         [Authorize]

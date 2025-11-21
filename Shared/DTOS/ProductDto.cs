@@ -8,13 +8,13 @@ namespace Shared.DTOS
 {
     public class ProductDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string PictureUrl { get; set; }
-        public decimal Price { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string pictureUrl { get; set; }
+        public decimal price { get; set; }
 
-        public string BrandName { get; set; }=null!;
-        public string TypeName { get; set; }=null!;
+        public string productBrand { get; set; }=null!;
+        public string productType { get; set; }=null!;
     }
 }

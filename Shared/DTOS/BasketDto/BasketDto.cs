@@ -10,5 +10,9 @@ namespace Shared.DTOS.BasketDto
     {
         public string Id { get; set; } 
         public ICollection<BasketItemDto> Items { get; set; }
+        public string? PaymentIntentId { get; set; }
+        public string? ClientSecret { get; set; }
+        public decimal? ShippingPrice { get; set; }//DeliveryMethod.Price
+        public int? DeliveryMethodId { get; set; }
     }
 }
