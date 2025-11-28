@@ -41,7 +41,6 @@ The project provides core functionalities for an online store, including product
 - **Swagger (API Documentation)**  
 
 ---
-
 ## 📁 Project Structure
 
 E-Commerces/
@@ -79,65 +78,72 @@ E-Commerces/
 
 git clone https://github.com/yasmin2624/E-Commerces.git
 2️⃣ Open the Solution
-Open E-Commerces.sln using Visual Studio 2022.
+Open the file:
+
+mathematica
+
+E-Commerces.sln
+using Visual Studio 2022.
 
 3️⃣ Configure Database
-Inside appsettings.json, update:
+Edit appsettings.json:
 
 
 "ConnectionStrings": {
   "DefaultConnection": "Server=.;Database=ECommercesDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
-4️⃣ Apply Migrations
-Use Package Manager Console:
 
-bash
-Copy code
+4️⃣ Apply Migrations
+In Package Manager Console:
+
 Update-Database
 5️⃣ Run the API
-Set E-Commerces.API as the startup project
+Set E-Commerces.API as the Startup Project
 
 Click Run
 
-Swagger UI will open automatically
+Swagger UI will load automatically
 
 🔑 Authentication Endpoints
+
+Register
+
 POST /api/auth/register
-Register a new user.
+
+Login
 
 POST /api/auth/login
-Login and receive a JWT token.
+Use the token in headers:
 
-Use the token as:
 
-makefile
-Copy code
-Authorization: Bearer <token>
+Authorization: Bearer <your_token_here>
 🛒 Product Endpoints
-GET /api/products
-Fetch all products.
+Get all products
 
-POST /api/products (Admin)
-Create a new product.
+GET /api/products
+Create product (Admin)
+
+POST /api/products
+Update product
 
 PUT /api/products/{id}
-Update a product.
+Delete product
 
 DELETE /api/products/{id}
-Delete a product.
 
 📂 Category Endpoints
-GET /api/categories
-Get all categories.
+Get categories
 
-POST /api/categories (Admin)
-Add a new category.
+GET /api/categories
+Create category (Admin)
+
+POST /api/categories
+Update category
 
 PUT /api/categories/{id}
-Update category.
+Delete category
 
 DELETE /api/categories/{id}
-Remove category.
 
 📌 Future Enhancements
 Shopping Cart & Orders
@@ -149,9 +155,4 @@ Admin Dashboard
 Reporting & Analytics
 
 Image Upload (Cloudinary)
-
-👩‍💻 About the Developer
-Yasmin Hossam Eldine Hassan
-Software Developer — ASP.NET | React | Data Science
-Alexandria University — Faculty of Data Science
-
+❤️
